@@ -14,31 +14,17 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.rmad
+package com.sky.xposed.rmad.ui.activity
 
-/**
- * Created by sky on 17-11-1.
- */
-object Constant {
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.sky.xposed.rmad.R
 
-    object ByeAD {
+class SettingsActivity : AppCompatActivity() {
 
-        /** 网易新闻包名 */
-        val PACKAGE_NAME = "com.sky.xposed.rmad"
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    object News {
-
-        /** 网易新闻包名 */
-        val PACKAGE_NAME = "com.netease.newsreader.activity"
-    }
-
-    object Preference {
-
-        /** 网易新闻启动广告开关 */
-        val NEWS_START_AD = "news_start_ad"
-
-        /** 网易新闻列表广告开关 */
-        val NEWS_LIST_AD = "news_list_ad"
+        setContentView(R.layout.activity_main)
     }
 }

@@ -14,15 +14,28 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.rmad
+package com.sky.xposed.rmad.ui.fragment
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.Preference
+import android.preference.PreferenceFragment
+import com.sky.xposed.rmad.R
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Created by sky on 17-11-1.
+ */
+class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        addPreferencesFromResource(R.xml.setting_preferences)
+    }
+
+    override fun onPreferenceClick(preference: Preference): Boolean {
+
+        when(preference.key) {
+        }
+        return true
     }
 }

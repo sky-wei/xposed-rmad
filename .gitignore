@@ -10,12 +10,3 @@
 .idea
 .gitignore
 .idea/
-app/
-build.gradle
-doc/
-gradle.properties
-gradle/
-gradlew
-gradlew.bat
-load/
-settings.gradle

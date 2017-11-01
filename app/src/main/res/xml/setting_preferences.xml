@@ -15,12 +15,25 @@
   ~ limitations under the License.
   -->
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.sky.xposed.rmad.ui.activity.SettingsActivity"
-    android:name="com.sky.xposed.rmad.ui.fragment.SettingsFragment">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-</fragment>
+    <PreferenceCategory
+        android:title="@string/news">
+
+        <SwitchPreference
+            android:key="news_start_ad"
+            android:title="@string/news_start_ad"
+            android:summary="@string/news_start_ad_summary"
+            android:defaultValue="false"
+            />
+
+        <SwitchPreference
+            android:key="news_list_ad"
+            android:title="@string/news_list_ad"
+            android:summary="@string/news_list_ad_summary"
+            android:defaultValue="false"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
