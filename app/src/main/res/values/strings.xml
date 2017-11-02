@@ -17,11 +17,9 @@
 <resources>
     <string name="app_name">ByeAD</string>
     <string name="news">网易新闻</string>
-    <string name="news_start_ad">禁用启动广告</string>
-    <string name="news_list_ad">禁用列表广告</string>
-    <string name="news_start_ad_summary">网易新闻客户端启动时加载的广告</string>
-    <string name="news_list_ad_summary">网易新闻客户端新闻列表中的广告</string>
     <string name="about">关于</string>
     <string name="ok">确定</string>
     <string name="version_x">版本：%s</string>
+    <string name="news_all_ad">禁用所有广告</string>
+    <string name="news_all_ad_summary">网易新闻客户端展示的所有广告</string>
 </resources>

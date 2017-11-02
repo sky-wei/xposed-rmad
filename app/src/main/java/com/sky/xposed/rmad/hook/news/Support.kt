@@ -23,23 +23,16 @@ object Support {
 
     object ClassName {
 
-        var adFragment = "com.netease.nr.biz.ad.AdFragment"
-
-        var newsListFragment = "com.netease.newsreader.newarch.news.list.base.NewarchNewsListFragment"
-
-        var joinPoint = "org.aspectj.lang.JoinPoint"
+        var adClass = "com.netease.newsreader.newarch.a.d"
     }
 
     object MethodName {
 
-        var onViewCreated = "onViewCreated"
-
-        var newsListAd = "e"
+        var adMethod = "a"
     }
 
     object FieldName {
 
-        var adHandler = "o"
     }
 
     object Version {

@@ -35,14 +35,8 @@ object Constant {
 
     object Preference {
 
-        /** 网易新闻分类 */
-        val NEWS_CATEGORY = "news_category"
-
-        /** 网易新闻启动广告开关 */
-        val NEWS_START_AD = "news_start_ad"
-
-        /** 网易新闻列表广告开关 */
-        val NEWS_LIST_AD = "news_list_ad"
+        /** 网易新闻所有广告开关 */
+        val NEWS_ALL_AD = "news_all_ad"
 
         /** 关于程序 */
         val ABOUT = "about"

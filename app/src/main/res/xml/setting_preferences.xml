@@ -18,20 +18,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="news_category"
         android:title="@string/news">
 
         <SwitchPreference
-            android:key="news_start_ad"
-            android:title="@string/news_start_ad"
-            android:summary="@string/news_start_ad_summary"
-            android:defaultValue="false"
-            />
-
-        <SwitchPreference
-            android:key="news_list_ad"
-            android:title="@string/news_list_ad"
-            android:summary="@string/news_list_ad_summary"
+            android:key="news_all_ad"
+            android:title="@string/news_all_ad"
+            android:summary="@string/news_all_ad_summary"
             android:defaultValue="false"
             />
 

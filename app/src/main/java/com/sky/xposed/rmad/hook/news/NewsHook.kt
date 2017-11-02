@@ -16,9 +16,6 @@
 
 package com.sky.xposed.rmad.hook.news
 
-import android.os.Bundle
-import android.os.Handler
-import android.view.View
 import com.sky.xposed.rmad.Constant
 import com.sky.xposed.rmad.hook.base.BaseHook
 import com.sky.xposed.rmad.util.Alog
@@ -38,35 +35,13 @@ class NewsHook : BaseHook() {
             return
         }
 
-        val fragmentClass = findClass(
-                Support.ClassName.newsListFragment)
-
-        val joinPointClass = findClass(
-                Support.ClassName.joinPoint)
-
-        findAndBeforeHookMethod(
-                Support.ClassName.newsListFragment,
-                Support.MethodName.newsListAd,
-                fragmentClass, List::class.java, joinPointClass) {
-
-            if (isCloseListAd()) {
-                // 置空即可不添加广告
-                it.args[1] = null
-            }
-        }
-
+        // 禁用广告
         findAndAfterHookMethod(
-                Support.ClassName.adFragment,
-                Support.MethodName.onViewCreated,
-                View::class.java, Bundle::class.java) {
+                Support.ClassName.adClass,
+                Support.MethodName.adMethod,
+                String::class.java) {
 
-            if (isCloseStartAd()) {
-                // 跳过启动广告
-                val handler = getObjectField(
-                        it.thisObject,
-                        Support.FieldName.adHandler) as Handler
-                handler.sendEmptyMessageDelayed(3, 1)
-            }
+            if (isCloseAllAd()) it.result = null
         }
     }
 
@@ -77,15 +52,9 @@ class NewsHook : BaseHook() {
         return Support.Version.isSupport(info.versionName)
     }
 
-    private fun isCloseStartAd(): Boolean {
+    private fun isCloseAllAd(): Boolean {
         return getPreferencesBoolean(
                 Constant.UriString.PREFERENCE_BOOLEAN,
-                Constant.Preference.NEWS_START_AD, false)
-    }
-
-    private fun isCloseListAd(): Boolean {
-        return getPreferencesBoolean(
-                Constant.UriString.PREFERENCE_BOOLEAN,
-                Constant.Preference.NEWS_LIST_AD, false)
+                Constant.Preference.NEWS_ALL_AD, false)
     }
 }
