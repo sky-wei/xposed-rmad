@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-package com.sky.xposed.rmad.ui.activity
+package com.sky.xposed.rmad.util
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
 import com.sky.xposed.rmad.R
 
-class SettingsActivity : AppCompatActivity() {
+/**
+ * Created by sky on 17-11-2.
+ */
+object DialogUtil {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    fun showMessage(context: Context, title: String, message: String): Dialog {
+
+        return AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, null)
+                .show()
     }
 }

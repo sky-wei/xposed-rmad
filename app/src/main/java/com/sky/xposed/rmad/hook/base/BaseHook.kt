@@ -17,8 +17,13 @@
 package com.sky.xposed.rmad.hook.base
 
 import android.app.ActivityThread
+import android.content.ContentResolver
 import android.content.Context
-import com.sky.xposed.rmad.util.PackageUitl
+import android.database.Cursor
+import android.net.Uri
+import android.text.TextUtils
+import com.sky.xposed.rmad.util.Alog
+import com.sky.xposed.rmad.util.PackageUtil
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -39,8 +44,12 @@ abstract class BaseHook : IXposedHookLoadPackage {
         return ActivityThread.currentActivityThread().systemContext
     }
 
-    fun getSimplePackageInfo(packageName: String): PackageUitl.SimplePackageInfo? {
-        return PackageUitl.getSimplePackageInfo(getSystemContext(), packageName)
+    fun getContentResolver(): ContentResolver {
+        return getSystemContext().contentResolver
+    }
+
+    fun getSimplePackageInfo(packageName: String): PackageUtil.SimplePackageInfo? {
+        return PackageUtil.getSimplePackageInfo(getSystemContext(), packageName)
     }
 
     fun findClass(className: String): Class<*> {
@@ -98,5 +107,36 @@ abstract class BaseHook : IXposedHookLoadPackage {
 
     fun getObjectField(obj: Any, fieldName: String): Any {
         return XposedHelpers.getObjectField(obj, fieldName)
+    }
+
+    fun <T> getPreferencesValue(
+            uriString: String, key: String, defValue: T, callback: (cursor: Cursor) -> T): T {
+
+        var cursor: Cursor? = null
+
+        try {
+            cursor = getContentResolver().query(
+                    Uri.parse(uriString), null,
+                    key, null, null)
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // 返回数据
+                return callback(cursor)
+            }
+        } catch (tr: Throwable) {
+            Alog.e("获取属性信息异常", tr)
+        } finally {
+            // 关闭
+            cursor?.close()
+        }
+        return defValue
+    }
+
+    fun getPreferencesBoolean(uriString: String, key: String, defValue: Boolean): Boolean {
+
+        return getPreferencesValue(uriString, key, defValue, {
+            // boolean类型的值特殊处理
+            TextUtils.equals("true", it.getString(0))
+        })
     }
 }

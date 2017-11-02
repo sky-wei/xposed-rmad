@@ -35,10 +35,22 @@ object Constant {
 
     object Preference {
 
+        /** 网易新闻分类 */
+        val NEWS_CATEGORY = "news_category"
+
         /** 网易新闻启动广告开关 */
         val NEWS_START_AD = "news_start_ad"
 
         /** 网易新闻列表广告开关 */
         val NEWS_LIST_AD = "news_list_ad"
+
+        /** 关于程序 */
+        val ABOUT = "about"
+    }
+
+    object UriString {
+
+        /** 属性类型为boolean类型值 */
+        val PREFERENCE_BOOLEAN = "content://com.sky.xposed.rmad.settings.preference/boolean"
     }
 }

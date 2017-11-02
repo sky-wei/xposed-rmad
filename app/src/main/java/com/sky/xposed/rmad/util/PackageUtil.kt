@@ -24,7 +24,7 @@ import java.io.Serializable
 /**
  * Created by sky on 17-11-1.
  */
-object PackageUitl {
+object PackageUtil {
 
     /**
      * 获取指定包的版本名

@@ -22,9 +22,7 @@ import android.view.View
 import com.sky.xposed.rmad.Constant
 import com.sky.xposed.rmad.hook.base.BaseHook
 import com.sky.xposed.rmad.util.Alog
-import com.sky.xposed.rmad.util.PackageUitl
-import de.robv.android.xposed.XSharedPreferences
-import de.robv.android.xposed.XposedBridge
+import com.sky.xposed.rmad.util.PackageUtil
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**
@@ -40,9 +38,6 @@ class NewsHook : BaseHook() {
             return
         }
 
-        // 配置
-        val preferences = XSharedPreferences(Constant.ByeAD.PACKAGE_NAME)
-
         val fragmentClass = findClass(
                 Support.ClassName.newsListFragment)
 
@@ -54,7 +49,7 @@ class NewsHook : BaseHook() {
                 Support.MethodName.newsListAd,
                 fragmentClass, List::class.java, joinPointClass) {
 
-            if (isCloseStartAd(preferences)) {
+            if (isCloseListAd()) {
                 // 置空即可不添加广告
                 it.args[1] = null
             }
@@ -65,7 +60,7 @@ class NewsHook : BaseHook() {
                 Support.MethodName.onViewCreated,
                 View::class.java, Bundle::class.java) {
 
-            if (isCloseListAd(preferences)) {
+            if (isCloseStartAd()) {
                 // 跳过启动广告
                 val handler = getObjectField(
                         it.thisObject,
@@ -75,18 +70,22 @@ class NewsHook : BaseHook() {
         }
     }
 
-    private fun checkVersion(info: PackageUitl.SimplePackageInfo?): Boolean {
+    private fun checkVersion(info: PackageUtil.SimplePackageInfo?): Boolean {
 
         if (info == null) return false
 
         return Support.Version.isSupport(info.versionName)
     }
 
-    private fun isCloseStartAd(preferences: XSharedPreferences): Boolean {
-        return preferences.getBoolean(Constant.Preference.NEWS_START_AD, true)
+    private fun isCloseStartAd(): Boolean {
+        return getPreferencesBoolean(
+                Constant.UriString.PREFERENCE_BOOLEAN,
+                Constant.Preference.NEWS_START_AD, false)
     }
 
-    private fun isCloseListAd(preferences: XSharedPreferences): Boolean {
-        return preferences.getBoolean(Constant.Preference.NEWS_LIST_AD, true)
+    private fun isCloseListAd(): Boolean {
+        return getPreferencesBoolean(
+                Constant.UriString.PREFERENCE_BOOLEAN,
+                Constant.Preference.NEWS_LIST_AD, false)
     }
 }

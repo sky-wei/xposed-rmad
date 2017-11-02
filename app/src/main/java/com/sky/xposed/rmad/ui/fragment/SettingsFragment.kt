@@ -19,22 +19,40 @@ package com.sky.xposed.rmad.ui.fragment
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
+import com.sky.xposed.rmad.BuildConfig
+import com.sky.xposed.rmad.Constant
 import com.sky.xposed.rmad.R
+import com.sky.xposed.rmad.util.DialogUtil
 
 /**
  * Created by sky on 17-11-1.
  */
-class SettingsFragment : PreferenceFragment(), Preference.OnPreferenceClickListener {
+class SettingsFragment :
+        PreferenceFragment(),
+        Preference.OnPreferenceClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         addPreferencesFromResource(R.xml.setting_preferences)
+
+        // 添加事件监听
+        findPreference(Constant.Preference.ABOUT)
+                .onPreferenceClickListener = this
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {
 
         when(preference.key) {
+
+            Constant.Preference.ABOUT -> {
+
+                // 显示提示框
+                DialogUtil.showMessage(
+                        activity,
+                        getString(R.string.about),
+                        getString(R.string.version_x, BuildConfig.VERSION_NAME))
+            }
         }
         return true
     }
