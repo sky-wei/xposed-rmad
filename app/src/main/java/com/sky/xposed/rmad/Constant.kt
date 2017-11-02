@@ -37,9 +37,6 @@ object Constant {
 
         /** 网易新闻所有广告开关 */
         val NEWS_ALL_AD = "news_all_ad"
-
-        /** 关于程序 */
-        val ABOUT = "about"
     }
 
     object UriString {

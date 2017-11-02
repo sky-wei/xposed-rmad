@@ -22,14 +22,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.activity.SettingsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
 
@@ -44,7 +44,7 @@
 
         <meta-data
             android:name="xposeddescription"
-            android:value="移除新闻广告"/>
+            android:value="禁用新闻类APP广告"/>
 
         <meta-data
             android:name="xposedminversion"

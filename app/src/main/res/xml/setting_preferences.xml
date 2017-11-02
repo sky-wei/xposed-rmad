@@ -24,14 +24,9 @@
             android:key="news_all_ad"
             android:title="@string/news_all_ad"
             android:summary="@string/news_all_ad_summary"
-            android:defaultValue="false"
+            android:defaultValue="true"
             />
 
     </PreferenceCategory>
-
-    <Preference
-        android:key="about"
-        android:title="@string/about"
-        />
 
 </PreferenceScreen>

@@ -18,12 +18,37 @@ package com.sky.xposed.rmad.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
+import com.sky.xposed.rmad.BuildConfig
 import com.sky.xposed.rmad.R
+import com.sky.xposed.rmad.util.DialogUtil
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_more, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId) {
+
+            R.id.menu_about -> {
+
+                // 关于
+                DialogUtil.showMessage(
+                        this,
+                        getString(R.string.about),
+                        getString(R.string.version_x, BuildConfig.VERSION_NAME))
+            }
+        }
+        return true
     }
 }

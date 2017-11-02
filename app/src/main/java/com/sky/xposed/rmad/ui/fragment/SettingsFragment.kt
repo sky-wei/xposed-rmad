@@ -35,24 +35,12 @@ class SettingsFragment :
         super.onCreate(savedInstanceState)
 
         addPreferencesFromResource(R.xml.setting_preferences)
-
-        // 添加事件监听
-        findPreference(Constant.Preference.ABOUT)
-                .onPreferenceClickListener = this
     }
 
     override fun onPreferenceClick(preference: Preference): Boolean {
 
         when(preference.key) {
 
-            Constant.Preference.ABOUT -> {
-
-                // 显示提示框
-                DialogUtil.showMessage(
-                        activity,
-                        getString(R.string.about),
-                        getString(R.string.version_x, BuildConfig.VERSION_NAME))
-            }
         }
         return true
     }
