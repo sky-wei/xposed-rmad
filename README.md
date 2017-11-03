@@ -6,6 +6,11 @@
 * __app__ 模块处理移除广告的功能
 * __load__ 模块用于动态加载来调试移除广告模块的功能
 
+### Xposed Module Repository 
+[http://repo.xposed.info/module/com.sky.xposed.rmad](http://repo.xposed.info/module/com.sky.xposed.rmad)
+
+### 截图
+![截图](screenshot/device-2017-11-03-091731.png)
 
 ## License
 
