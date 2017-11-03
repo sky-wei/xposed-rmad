@@ -61,34 +61,40 @@ abstract class BaseHook : IXposedHookLoadPackage {
     }
 
     fun findAndBeforeHookMethod(className: String, methodName: String,
-                          vararg parameterTypes: Any,
-                          callback: (param: XC_MethodHook.MethodHookParam) -> Unit) {
+                                vararg parameterTypes: Any,
+                                beforeHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
 
-        val parameterTypesAndCallback = arrayOf(
-                *parameterTypes,
-                object : XC_MethodHook() {
-
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                super.beforeHookedMethod(param)
-                // 直接调用
-                callback(param)
-            }
-        })
-
-        findAndHookMethod(className, methodName, *parameterTypesAndCallback)
+        findAndHookMethod(className, methodName,
+                *parameterTypes, beforeHook = beforeHook, afterHook = {})
     }
 
     fun findAndAfterHookMethod(className: String, methodName: String,
-                                vararg parameterTypes: Any,
-                                callback: (param: XC_MethodHook.MethodHookParam) -> Unit) {
+                               vararg parameterTypes: Any,
+                               afterHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
+
+        findAndHookMethod(className, methodName,
+                *parameterTypes, beforeHook = {}, afterHook = afterHook)
+    }
+
+    fun findAndHookMethod(className: String, methodName: String,
+                          vararg parameterTypes: Any,
+                          beforeHook: (param: XC_MethodHook.MethodHookParam) -> Unit,
+                          afterHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
 
         val parameterTypesAndCallback = arrayOf(
                 *parameterTypes,
                 object : XC_MethodHook() {
+
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        super.beforeHookedMethod(param)
+                        // 直接调用
+                        beforeHook(param)
+                    }
+
                     override fun afterHookedMethod(param: MethodHookParam) {
                         super.afterHookedMethod(param)
                         // 直接调用
-                        callback(param)
+                        afterHook(param)
                     }
                 })
 
@@ -109,8 +115,12 @@ abstract class BaseHook : IXposedHookLoadPackage {
         return XposedHelpers.getObjectField(obj, fieldName)
     }
 
-    fun <T> getPreferencesValue(
-            uriString: String, key: String, defValue: T, callback: (cursor: Cursor) -> T): T {
+    fun getBooleanField(obj: Any, fieldName: String): Boolean {
+        return XposedHelpers.getBooleanField(obj, fieldName)
+    }
+
+    fun <T> getPreferenceValue(
+            uriString: String, key: String, defValue: T, handler: (cursor: Cursor) -> T): T {
 
         var cursor: Cursor? = null
 
@@ -121,7 +131,7 @@ abstract class BaseHook : IXposedHookLoadPackage {
 
             if (cursor != null && cursor.moveToFirst()) {
                 // 返回数据
-                return callback(cursor)
+                return handler(cursor)
             }
         } catch (tr: Throwable) {
             Alog.e("获取属性信息异常", tr)
@@ -132,11 +142,43 @@ abstract class BaseHook : IXposedHookLoadPackage {
         return defValue
     }
 
-    fun getPreferencesBoolean(uriString: String, key: String, defValue: Boolean): Boolean {
+    fun getPreferenceBoolean(uriString: String, key: String, defValue: Boolean): Boolean {
 
-        return getPreferencesValue(uriString, key, defValue, {
+        return getPreferenceValue(uriString, key, defValue, {
             // boolean类型的值特殊处理
             TextUtils.equals("true", it.getString(0))
+        })
+    }
+
+    fun getPreferenceString(uriString: String, key: String, defValue: String): String {
+
+        return getPreferenceValue(uriString, key, defValue, {
+            // String直接返回
+            it.getString(0)?:""
+        })
+    }
+
+    fun getPreferenceInt(uriString: String, key: String, defValue: Int): Int {
+
+        return getPreferenceValue(uriString, key, defValue, {
+            // Int直接返回
+            it.getInt(0)
+        })
+    }
+
+    fun getPreferenceLong(uriString: String, key: String, defValue: Long): Long {
+
+        return getPreferenceValue(uriString, key, defValue, {
+            // Long直接返回
+            it.getLong(0)
+        })
+    }
+
+    fun getPreferenceFloat(uriString: String, key: String, defValue: Float): Float {
+
+        return getPreferenceValue(uriString, key, defValue, {
+            // Float直接返回
+            it.getFloat(0)
         })
     }
 }

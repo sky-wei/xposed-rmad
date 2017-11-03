@@ -53,7 +53,7 @@ class NewsHook : BaseHook() {
     }
 
     private fun isCloseAllAd(): Boolean {
-        return getPreferencesBoolean(
+        return getPreferenceBoolean(
                 Constant.UriString.PREFERENCE_BOOLEAN,
                 Constant.Preference.NEWS_ALL_AD, true)
     }
