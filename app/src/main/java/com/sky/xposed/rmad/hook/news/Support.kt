@@ -31,9 +31,9 @@ object Support {
         var adMethod = "a"
     }
 
-    object FieldName {
-
-    }
+//    object FieldName {
+//
+//    }
 
     object Version {
 
@@ -42,6 +42,8 @@ object Support {
         init {
             // 添加版本
             versionMap.put("29.1", "")
+            versionMap.put("29.2", "")
+            versionMap.put("31.0", "")
         }
 
         fun isSupport(versionName: String): Boolean {
