@@ -33,6 +33,12 @@ object Constant {
         val PACKAGE_NAME = "com.netease.newsreader.activity"
     }
 
+    object CloudMusic {
+
+        /** 网易云音乐包名 */
+        val PACKAGE_NAME = "com.netease.cloudmusic"
+    }
+
     object Preference {
 
         /** 网易新闻所有广告开关 */

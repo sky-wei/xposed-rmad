@@ -44,6 +44,7 @@ object Support {
             versionMap.put("29.1", "")
             versionMap.put("29.2", "")
             versionMap.put("31.0", "")
+            versionMap.put("31.2", "")
         }
 
         fun isSupport(versionName: String): Boolean {
