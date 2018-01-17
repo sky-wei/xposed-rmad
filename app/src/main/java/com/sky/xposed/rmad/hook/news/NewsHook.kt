@@ -27,8 +27,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 class NewsHook : BaseHook() {
 
-    override fun handleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
-        super.handleLoadPackage(param)
+    override fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
         if (!checkVersion(getSimplePackageInfo(Constant.News.PACKAGE_NAME))) {
             Alog.d("不支持当前版本")

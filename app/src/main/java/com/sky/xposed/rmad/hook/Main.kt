@@ -17,7 +17,8 @@
 package com.sky.xposed.rmad.hook
 
 import com.sky.xposed.rmad.Constant
-import com.sky.xposed.rmad.hook.news.CloudMusicHook
+import com.sky.xposed.rmad.hook.mail.MobiMailHook
+import com.sky.xposed.rmad.hook.music.CloudMusicHook
 import com.sky.xposed.rmad.hook.news.NewsHook
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -43,6 +44,11 @@ class Main : IXposedHookLoadPackage, IXposedHookInitPackageResources {
                 // 处理网易广告
                 val cloudMusicHook = CloudMusicHook()
                 cloudMusicHook.handleLoadPackage(param)
+            }
+            Constant.MobiMail.PACKAGE_NAME -> {
+                // 处理网易邮箱广告
+                val mobiMailHook = MobiMailHook()
+                mobiMailHook.handleLoadPackage(param)
             }
         }
     }

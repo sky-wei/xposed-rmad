@@ -36,9 +36,18 @@ abstract class BaseHook : IXposedHookLoadPackage {
 
     private lateinit var param: XC_LoadPackage.LoadPackageParam
 
-    override fun handleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
+    final override fun handleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
         this.param = param
+
+        try {
+            // 处理
+            onHandleLoadPackage(param)
+        } catch (tr: Throwable) {
+            Alog.e("handleLoadPackage异常", tr)
+        }
     }
+
+    abstract fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam)
 
     fun getSystemContext(): Context {
         return ActivityThread.currentActivityThread().systemContext

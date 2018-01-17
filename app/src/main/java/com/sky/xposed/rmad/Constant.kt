@@ -39,6 +39,12 @@ object Constant {
         val PACKAGE_NAME = "com.netease.cloudmusic"
     }
 
+    object MobiMail {
+
+        /** 网易邮箱包名 */
+        val PACKAGE_NAME = "com.netease.mobimail"
+    }
+
     object Preference {
 
         /** 网易新闻所有广告开关 */
