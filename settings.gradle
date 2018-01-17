@@ -1,1 +1,1 @@
-include ':app', ':load'
+include ':app'

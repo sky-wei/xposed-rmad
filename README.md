@@ -1,10 +1,9 @@
 ### 移除新闻类的APP中插入的广告
 
-* 目前支持网易新闻客户端v29.1,v31.0版本
+* 目前支持网易新闻客户端v29.1,v31.0,v31.2版本
 
 ### 模块说明
 * __app__ 模块处理移除广告的功能
-* __load__ 模块用于动态加载来调试移除广告模块的功能
 
 ### Xposed Module Repository 
 [http://repo.xposed.info/module/com.sky.xposed.rmad](http://repo.xposed.info/module/com.sky.xposed.rmad)
