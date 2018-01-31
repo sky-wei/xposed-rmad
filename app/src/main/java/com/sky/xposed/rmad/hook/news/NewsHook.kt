@@ -29,10 +29,10 @@ class NewsHook : BaseHook() {
 
     override fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
-        if (!checkVersion(getSimplePackageInfo(Constant.News.PACKAGE_NAME))) {
-            Alog.d("不支持当前版本")
-            return
-        }
+//        if (!checkVersion(getSimplePackageInfo(Constant.News.PACKAGE_NAME))) {
+//            Alog.d("不支持当前版本")
+//            return
+//        }
 
         // 禁用广告
         findAndAfterHookMethod(
