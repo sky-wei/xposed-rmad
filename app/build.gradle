@@ -11,10 +11,44 @@ android {
         versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    signingConfigs {
+        sky {
+            storeFile file("${rootDir}/keyStore/sky.jks")
+            storePassword project.storePassword
+            keyAlias project.keyAlias
+            keyPassword project.keyPassword
+        }
+    }
     buildTypes {
         release {
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${project.name}_${variant.flavorName}_v${variant.versionName}.apk"
+                }
+            }
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.sky
+        }
+        debug {
+            minifyEnabled false
+            signingConfig signingConfigs.sky
+        }
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        all { flavor ->
+            resValue 'string', 'flavor', flavor.name
+        }
+        common {
+            dimension "default"
         }
     }
 }
