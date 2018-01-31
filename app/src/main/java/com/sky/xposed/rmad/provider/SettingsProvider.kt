@@ -68,7 +68,7 @@ class SettingsProvider : ContentProvider() {
         when(uriMatcher.match(uri)) {
             stringCode -> return matrixCursor(mPreferences.getString(selection, ""))
             intCode -> return matrixCursor(mPreferences.getInt(selection, 0))
-            booleanCode -> return matrixCursor(mPreferences.getBoolean(selection, false))
+            booleanCode -> return matrixCursor(mPreferences.getBoolean(selection, true))
             longCode -> return matrixCursor(mPreferences.getLong(selection, 0L))
             floatCode -> return matrixCursor(mPreferences.getFloat(selection, 0.0F))
         }
