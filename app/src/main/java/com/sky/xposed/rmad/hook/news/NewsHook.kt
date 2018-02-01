@@ -18,7 +18,6 @@ package com.sky.xposed.rmad.hook.news
 
 import com.sky.xposed.rmad.Constant
 import com.sky.xposed.rmad.hook.base.BaseHook
-import com.sky.xposed.rmad.util.Alog
 import com.sky.xposed.rmad.util.PackageUtil
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -35,12 +34,13 @@ class NewsHook : BaseHook() {
 //        }
 
         // 禁用广告
-        findAndAfterHookMethod(
+        findAndHookMethodReplacement(
                 Support.ClassName.adClass,
                 Support.MethodName.adMethod,
                 String::class.java) {
 
-            if (isCloseAllAd()) it.result = null
+            // 直接返回null
+            null
         }
     }
 

@@ -26,6 +26,7 @@ import com.sky.xposed.rmad.util.Alog
 import com.sky.xposed.rmad.util.PackageUtil
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -104,6 +105,23 @@ abstract class BaseHook : IXposedHookLoadPackage {
                         super.afterHookedMethod(param)
                         // 直接调用
                         afterHook(param)
+                    }
+                })
+
+        findAndHookMethod(className, methodName, *parameterTypesAndCallback)
+    }
+
+    fun findAndHookMethodReplacement(className: String, methodName: String,
+                                     vararg parameterTypes: Any,
+                                     replaceHook: (param: XC_MethodHook.MethodHookParam) -> Any?) {
+
+        val parameterTypesAndCallback = arrayOf(
+                *parameterTypes,
+                object : XC_MethodReplacement() {
+
+                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
+                        // 直接调用
+                        return replaceHook(param)
                     }
                 })
 
