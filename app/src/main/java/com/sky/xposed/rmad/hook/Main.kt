@@ -28,7 +28,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 /**
  * Created by sky on 17-11-1.
  */
-class Main : IXposedHookLoadPackage, IXposedHookInitPackageResources {
+class Main : IXposedHookLoadPackage {
 
     override fun handleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
@@ -51,10 +51,5 @@ class Main : IXposedHookLoadPackage, IXposedHookInitPackageResources {
                 mobiMailHook.handleLoadPackage(param)
             }
         }
-    }
-
-    override fun handleInitPackageResources(
-            param: XC_InitPackageResources.InitPackageResourcesParam) {
-
     }
 }

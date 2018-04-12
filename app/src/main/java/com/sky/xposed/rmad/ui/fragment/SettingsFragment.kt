@@ -16,32 +16,39 @@
 
 package com.sky.xposed.rmad.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
-import com.sky.xposed.rmad.BuildConfig
 import com.sky.xposed.rmad.Constant
 import com.sky.xposed.rmad.R
-import com.sky.xposed.rmad.util.DialogUtil
+import com.sky.xposed.rmad.helper.ReceiverHelper
 
 /**
  * Created by sky on 17-11-1.
  */
 class SettingsFragment :
         PreferenceFragment(),
-        Preference.OnPreferenceClickListener {
+        Preference.OnPreferenceChangeListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         addPreferencesFromResource(R.xml.setting_preferences)
+
+        findPreference(Constant.Preference.NEWS_ALL_AD).onPreferenceChangeListener = this
     }
 
-    override fun onPreferenceClick(preference: Preference): Boolean {
+    override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
 
-        when(preference.key) {
+        val data = arrayListOf(Pair<String, String>(preference.key, newValue.toString()))
 
-        }
+        val intent = Intent(Constant.Action.REFRESH_PREFERENCE)
+        intent.putExtra(Constant.Key.DATA, data)
+
+        // 发送广播
+        ReceiverHelper.sendBroadcastReceiver(activity, intent)
+
         return true
     }
 }

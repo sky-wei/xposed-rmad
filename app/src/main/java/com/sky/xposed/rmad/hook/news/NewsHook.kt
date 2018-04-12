@@ -17,14 +17,20 @@
 package com.sky.xposed.rmad.hook.news
 
 import com.sky.xposed.rmad.Constant
+import com.sky.xposed.rmad.helper.PreferenceHelper
+import com.sky.xposed.rmad.helper.ReceiverHelper
 import com.sky.xposed.rmad.hook.base.BaseHook
+import com.sky.xposed.rmad.util.Alog
 import com.sky.xposed.rmad.util.PackageUtil
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**
  * Created by sky on 17-11-1.
  */
 class NewsHook : BaseHook() {
+
+    private lateinit var mPreferenceHelper: PreferenceHelper
 
     override fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
@@ -33,14 +39,19 @@ class NewsHook : BaseHook() {
 //            return
 //        }
 
+        mPreferenceHelper = PreferenceHelper(getSystemContext())
+
         // 禁用广告
         findAndHookMethodReplacement(
                 Support.ClassName.adClass,
                 Support.MethodName.adMethod,
                 String::class.java) {
 
-            // 直接返回null
-            null
+            if (isCloseAllAd()) {
+                null
+            } else {
+                XposedBridge.invokeOriginalMethod(it.method, it.thisObject, it.args)
+            }
         }
     }
 
@@ -52,8 +63,6 @@ class NewsHook : BaseHook() {
     }
 
     private fun isCloseAllAd(): Boolean {
-        return getPreferenceBoolean(
-                Constant.UriString.PREFERENCE_BOOLEAN,
-                Constant.Preference.NEWS_ALL_AD, true)
+        return mPreferenceHelper.getBoolean(Constant.Preference.NEWS_ALL_AD, true)
     }
 }

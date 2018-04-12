@@ -16,8 +16,10 @@
 
 package com.sky.xposed.rmad.provider
 
-import android.content.*
-import android.content.pm.ProviderInfo
+import android.content.ContentProvider
+import android.content.ContentValues
+import android.content.SharedPreferences
+import android.content.UriMatcher
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
@@ -35,12 +37,14 @@ class SettingsProvider : ContentProvider() {
     private val booleanPath = "boolean"
     private val longPath = "long"
     private val floatPath = "float"
+    private val allPath = "all"
 
     private val stringCode = 1
     private val intCode = 2
     private val booleanCode = 3
     private val longCode = 4
     private val floatCode = 5
+    private val allCode = 6
 
     private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
@@ -52,6 +56,7 @@ class SettingsProvider : ContentProvider() {
         uriMatcher.addURI(authority, booleanPath, booleanCode)
         uriMatcher.addURI(authority, longPath, longCode)
         uriMatcher.addURI(authority, floatPath, floatCode)
+        uriMatcher.addURI(authority, allPath, allCode)
     }
 
     override fun onCreate(): Boolean {
@@ -62,15 +67,13 @@ class SettingsProvider : ContentProvider() {
 
     override fun query(uri: Uri, projection: Array<String>?,
                        selection: String?, selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
-
-        if (selection == null) return null
-
         when(uriMatcher.match(uri)) {
-            stringCode -> return matrixCursor(mPreferences.getString(selection, ""))
-            intCode -> return matrixCursor(mPreferences.getInt(selection, 0))
-            booleanCode -> return matrixCursor(mPreferences.getBoolean(selection, true))
-            longCode -> return matrixCursor(mPreferences.getLong(selection, 0L))
-            floatCode -> return matrixCursor(mPreferences.getFloat(selection, 0.0F))
+            stringCode -> return handler(selection, selectionArgs) { key, defValue -> mPreferences.getString(key, defValue) }
+            intCode -> return handler(selection, selectionArgs) { key, defValue -> mPreferences.getInt(key, defValue.toInt()) }
+            booleanCode -> return handler(selection, selectionArgs) { key, defValue -> mPreferences.getBoolean(key, defValue.toBoolean()) }
+            longCode -> return handler(selection, selectionArgs) { key, defValue -> mPreferences.getLong(key, defValue.toLong()) }
+            floatCode -> return handler(selection, selectionArgs) { key, defValue -> mPreferences.getFloat(key, defValue.toFloat()) }
+            allCode -> { return matrixCursor(mPreferences.all) }
         }
         return null
     }
@@ -91,6 +94,18 @@ class SettingsProvider : ContentProvider() {
         throw UnsupportedOperationException("No external updates")
     }
 
+    private inline fun <reified T> handler(
+            selection: String?, selectionArgs: Array<String>?,
+            callback: (key: String, defValue: String) -> T): Cursor? {
+
+        if (selection == null
+                || selectionArgs == null
+                || selectionArgs.isEmpty()) {
+            return null
+        }
+        return matrixCursor(callback.invoke(selection, selectionArgs[0]))
+    }
+
     private inline fun <reified T> matrixCursor(value: T): Cursor {
 
         val cursor = MatrixCursor(arrayOf("value"), 1)
@@ -98,6 +113,17 @@ class SettingsProvider : ContentProvider() {
         // 添加数据
         cursor.addRow(arrayOf(value))
 
+        return cursor
+    }
+
+    private inline fun <reified T> matrixCursor(map: Map<String, T>): Cursor {
+
+        val cursor = MatrixCursor(arrayOf("key", "value"), map.size)
+
+        map.keys.forEach {
+            // 添加数据
+            cursor.addRow(arrayOf(it, map[it]))
+        }
         return cursor
     }
 }

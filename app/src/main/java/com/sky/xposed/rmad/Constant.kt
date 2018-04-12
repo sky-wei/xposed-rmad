@@ -53,7 +53,16 @@ object Constant {
 
     object UriString {
 
-        /** 属性类型为boolean类型值 */
-        val PREFERENCE_BOOLEAN = "content://com.sky.xposed.rmad.settings.preference/boolean"
+        val PREFERENCE_ALL = "content://${BuildConfig.APPLICATION_ID}.settings.preference/all"
+    }
+
+    object Action {
+
+        val REFRESH_PREFERENCE = "com.sky.xposed.rmad.action.REFRESH_PREFERENCE"
+    }
+
+    object Key {
+
+        val DATA = "data"
     }
 }
