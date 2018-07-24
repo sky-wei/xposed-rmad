@@ -49,8 +49,6 @@ abstract class BaseHook : IXposedHookLoadPackage {
 
     abstract fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam)
 
-
-
     fun getSystemContext(): Context {
         return ActivityThread.currentActivityThread().systemContext
     }
@@ -61,89 +59,5 @@ abstract class BaseHook : IXposedHookLoadPackage {
 
     fun getSimplePackageInfo(packageName: String): PackageUtil.SimplePackageInfo? {
         return PackageUtil.getSimplePackageInfo(getSystemContext(), packageName)
-    }
-
-    fun findClass(className: String): Class<*> {
-        return findClass(className, param.classLoader)
-    }
-
-    fun findClass(className: String, classLoader: ClassLoader): Class<*> {
-        return XposedHelpers.findClass(className, classLoader)
-    }
-
-    fun findAndBeforeHookMethod(className: String, methodName: String,
-                                vararg parameterTypes: Any,
-                                beforeHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
-
-        findAndHookMethod(className, methodName,
-                *parameterTypes, beforeHook = beforeHook, afterHook = {})
-    }
-
-    fun findAndAfterHookMethod(className: String, methodName: String,
-                               vararg parameterTypes: Any,
-                               afterHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
-
-        findAndHookMethod(className, methodName,
-                *parameterTypes, beforeHook = {}, afterHook = afterHook)
-    }
-
-    fun findAndHookMethod(className: String, methodName: String,
-                          vararg parameterTypes: Any,
-                          beforeHook: (param: XC_MethodHook.MethodHookParam) -> Unit,
-                          afterHook: (param: XC_MethodHook.MethodHookParam) -> Unit) {
-
-        val parameterTypesAndCallback = arrayOf(
-                *parameterTypes,
-                object : XC_MethodHook() {
-
-                    override fun beforeHookedMethod(param: MethodHookParam) {
-                        super.beforeHookedMethod(param)
-                        // 直接调用
-                        beforeHook(param)
-                    }
-
-                    override fun afterHookedMethod(param: MethodHookParam) {
-                        super.afterHookedMethod(param)
-                        // 直接调用
-                        afterHook(param)
-                    }
-                })
-
-        findAndHookMethod(className, methodName, *parameterTypesAndCallback)
-    }
-
-    fun findAndHookMethodReplacement(className: String, methodName: String,
-                                     vararg parameterTypes: Any,
-                                     replaceHook: (param: XC_MethodHook.MethodHookParam) -> Any?) {
-
-        val parameterTypesAndCallback = arrayOf(
-                *parameterTypes,
-                object : XC_MethodReplacement() {
-
-                    override fun replaceHookedMethod(param: MethodHookParam): Any? {
-                        // 直接调用
-                        return replaceHook(param)
-                    }
-                })
-
-        findAndHookMethod(className, methodName, *parameterTypesAndCallback)
-    }
-
-    fun findAndHookMethod(className: String, methodName: String,
-                          vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
-        return findAndHookMethod(className, param.classLoader, methodName, *parameterTypesAndCallback)
-    }
-
-    fun findAndHookMethod(className: String, classLoader: ClassLoader, methodName: String,
-                          vararg parameterTypesAndCallback: Any): XC_MethodHook.Unhook {
-        return XposedHelpers.findAndHookMethod(className, classLoader, methodName, *parameterTypesAndCallback)
-    }
-
-    fun getObjectField(obj: Any, fieldName: String): Any {
-        return XposedHelpers.getObjectField(obj, fieldName)
-    }
-
-    fun getBooleanField(obj: Any, fieldName: String): Boolean {
-        return XposedHelpers.getBooleanField(obj, fieldName)
     }
 }

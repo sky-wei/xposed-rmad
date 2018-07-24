@@ -23,7 +23,8 @@ object Support {
 
     object ClassName {
 
-        var adClass = "com.netease.newsreader.newarch.a.d"
+        /** AdItemBean */
+        var adClass = "com.netease.newsreader.newarch.a.e"
     }
 
     object MethodName {

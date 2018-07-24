@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) 2017 The sky Authors.
+  ~ Copyright (c) 2018. The sky Authors
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,9 +15,18 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="colorPrimary">#0e7cab</color>
-    <color name="colorPrimaryDark">#0a668e</color>
-    <color name="colorAccent">#0c6a9c</color>
-    <color name="white">#ffffff</color>
-</resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="false">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+        </shape>
+    </item>
+
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#eeeeee" />
+        </shape>
+    </item>
+
+</selector>

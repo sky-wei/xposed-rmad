@@ -16,6 +16,7 @@
 
 package com.sky.xposed.rmad.hook.music
 
+import com.sky.xposed.ktx.XposedPlus
 import com.sky.xposed.rmad.hook.base.BaseHook
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -26,14 +27,16 @@ class CloudMusicHook : BaseHook() {
 
     override fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
-        val tClass = findClass("com.netease.cloudmusic.module.ad.c\$b")
+        XposedPlus.initDefaultLoadPackage(param)
 
-        findAndAfterHookMethod(
+        val tClass = XposedPlus.findClass("com.netease.cloudmusic.module.ad.c\$b")
+
+        XposedPlus.findAndAfterHookMethod(
                 "com.netease.cloudmusic.module.ad.c", "a", tClass){
             it.result = null
         }
 
-        findAndAfterHookMethod(
+        XposedPlus.findAndAfterHookMethod(
                 "com.netease.cloudmusic.module.ad.c", "b"){
             it.result = null
         }

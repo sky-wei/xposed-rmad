@@ -51,11 +51,6 @@ object Constant {
         val NEWS_ALL_AD = "news_all_ad"
     }
 
-    object UriString {
-
-        val PREFERENCE_ALL = "content://${BuildConfig.APPLICATION_ID}.settings.preference/all"
-    }
-
     object Action {
 
         val REFRESH_PREFERENCE = "com.sky.xposed.rmad.action.REFRESH_PREFERENCE"

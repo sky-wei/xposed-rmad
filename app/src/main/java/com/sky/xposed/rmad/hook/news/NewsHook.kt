@@ -16,13 +16,9 @@
 
 package com.sky.xposed.rmad.hook.news
 
-import com.sky.xposed.rmad.Constant
-import com.sky.xposed.rmad.helper.PreferenceHelper
-import com.sky.xposed.rmad.helper.ReceiverHelper
+import com.sky.xposed.ktx.XposedPlus
 import com.sky.xposed.rmad.hook.base.BaseHook
-import com.sky.xposed.rmad.util.Alog
 import com.sky.xposed.rmad.util.PackageUtil
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 /**
@@ -30,39 +26,17 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 class NewsHook : BaseHook() {
 
-    private lateinit var mPreferenceHelper: PreferenceHelper
-
     override fun onHandleLoadPackage(param: XC_LoadPackage.LoadPackageParam) {
 
-//        if (!checkVersion(getSimplePackageInfo(Constant.News.PACKAGE_NAME))) {
-//            Alog.d("不支持当前版本")
-//            return
-//        }
-
-        mPreferenceHelper = PreferenceHelper(getSystemContext())
+        XposedPlus.initDefaultLoadPackage(param)
 
         // 禁用广告
-        findAndHookMethodReplacement(
+        XposedPlus.findAndHookMethodReplacement(
                 Support.ClassName.adClass,
                 Support.MethodName.adMethod,
                 String::class.java) {
-
-            if (isCloseAllAd()) {
-                null
-            } else {
-                XposedBridge.invokeOriginalMethod(it.method, it.thisObject, it.args)
-            }
+            // 直接返回null
+            null
         }
-    }
-
-    private fun checkVersion(info: PackageUtil.SimplePackageInfo?): Boolean {
-
-        if (info == null) return false
-
-        return Support.Version.isSupport(info.versionName)
-    }
-
-    private fun isCloseAllAd(): Boolean {
-        return mPreferenceHelper.getBoolean(Constant.Preference.NEWS_ALL_AD, true)
     }
 }
