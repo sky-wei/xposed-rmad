@@ -7,8 +7,8 @@ android {
         applicationId "com.sky.xposed.rmad"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.2.0"
+        versionCode 8
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     compileOnly 'de.robv.android.xposed:api:82'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    implementation 'org.apache.commons:commons-lang3:3.5'
     compileOnly 'com.rover12421.AndroidHideApi:android:1.17'
     implementation 'com.github.jingcai-wei:xposed-ktx:1.2'

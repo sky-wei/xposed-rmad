@@ -24,7 +24,7 @@ object Support {
     object ClassName {
 
         /** AdItemBean */
-        var adClass = "com.netease.newsreader.newarch.a.e"
+        var adClass = "com.netease.newsreader.common.ad.b.a"        // AdController | "|adInfo list is null"
     }
 
     object MethodName {
@@ -35,21 +35,4 @@ object Support {
 //    object FieldName {
 //
 //    }
-
-    object Version {
-
-        private val versionMap = HashMap<String, String>()
-
-        init {
-            // 添加版本
-            versionMap.put("29.1", "")
-            versionMap.put("29.2", "")
-            versionMap.put("31.0", "")
-            versionMap.put("31.2", "")
-        }
-
-        fun isSupport(versionName: String): Boolean {
-            return versionMap.containsKey(versionName)
-        }
-    }
 }
